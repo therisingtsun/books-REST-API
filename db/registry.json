@@ -1,0 +1,26 @@
+{
+	"e6212b50-dd67-4111-a257-58ceecd4e4d1": {
+		"author": "Test Author",
+		"language": "English",
+		"pages": "500",
+		"title": "Test Book",
+		"thumb": "https://via.placeholder.com/320x500/330010/fff?text=Test%20Book!",
+		"id": "e6212b50-dd67-4111-a257-58ceecd4e4d1"
+	},
+	"a30f584b-7db9-4aa0-897e-f751964b87b2": {
+		"author": "George Orwell",
+		"language": "English",
+		"pages": "272",
+		"title": "Nineteen Eighty-Four",
+		"thumb": "nineteen-eighty-four.jpg",
+		"id": "a30f584b-7db9-4aa0-897e-f751964b87b2"
+	},
+	"b36b61d2-04e6-4c5d-bbe5-13419fdc2cae": {
+		"author": "William Shakespeare",
+		"language": "English",
+		"pages": "432",
+		"title": "Hamlet",
+		"thumb": "hamlet.jpg",
+		"id": "b36b61d2-04e6-4c5d-bbe5-13419fdc2cae"
+	}
+}

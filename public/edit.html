@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Books: Edit</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<style>
+		.edit-form label {
+			display: flex;
+			flex-flow: column nowrap;
+			margin: 1rem;
+		}
+		.edit-form input {
+			margin-top: 0.5rem;
+			padding: 0.5rem 1rem
+		}
+		.form-action-buttons {
+			display: flex;
+			justify-content: space-around;
+		}
+		.form-action-buttons button {
+			font-size: 2rem;
+		}
+		#book-id {
+			display: none;
+		}
+	</style>
+	
+	<h1 id="action-name"></h1>
+	<form class="edit-form" autocomplete="off">
+		<label for="author">
+			Author *
+			<input required type="text" name="author">
+		</label>
+		<label for="language">
+			Language
+			<input type="text" name="language">
+		</label>
+		<label for="pages">
+			Pages
+			<input type="number" min="1" name="pages" value="1">
+		</label>
+		<label for="title">
+			Title *
+			<input required type="text" name="title">
+		</label>
+		<label for="thumb">
+			Thumbnail URL:
+			<input type="text" name="thumb">
+		</label>
+		<input id="book-id" type="text" name="id">
+		<p class="form-action-buttons">
+			<button id="save-button" formaction="/api/edit" formmethod="POST" type="submit">Save book</button>
+			<button id="delete-button" formaction="/api/delete" formmethod="POST" type="submit">Delete book</button>
+		</p>
+	</form>
+
+	<script>
+		const search = location.search.slice(1);
+		const params = new URLSearchParams(search);
+		
+		const id = params.get("id");
+
+		const actionName = document.getElementById("action-name");
+		if (id !== null) {
+			actionName.innerHTML = "Editing";
+
+			fetch(`/api/get/${id}`).then(async (res) => {
+				const data = await res.json();
+				if (data) {
+					actionName.innerHTML = `Editing '${id}'`;
+					for (const i of document.getElementsByTagName("input")) {
+						i.value = data[i.name];
+					}
+				} else alert(`Could not get book with id '${id}'!`)
+			})
+		} else {
+			actionName.innerHTML = "New book";
+			
+			document.getElementById('save-button').formAction = '/api/new';
+			document.getElementById('delete-button').style.display = 'none';
+		}
+	</script>
+</body>
+</html>

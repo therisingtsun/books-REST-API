@@ -1,0 +1,17 @@
+{
+	"name": "rest-api-books",
+	"version": "1.0.0",
+	"description": "Simple REST API for books.",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"express": "^4.18.1",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"open": "^8.4.0"
+	}
+}

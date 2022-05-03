@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Books</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<style>
+		main {
+			display: flex;
+			flex-flow: row nowrap;
+		}
+		#book-listing {
+			width: 80%;
+			margin: 2rem;
+		}
+		#book-controls {
+			text-align: right;
+			width: 20%;
+			margin: 2rem;
+		}
+		#current-book {
+			margin: 2rem;
+			width: 40vw;
+			display: flex;
+			flex-flow: column nowrap;
+			grid-gap: 0.5rem;
+		}
+		#current-book div {
+			display: flex;
+			justify-content: space-between;
+			grid-gap: 0.5rem;
+		}
+		#book-title {
+			font-weight: bold;
+		}
+		#book-author {
+			font-style: italic;
+		}
+		#book-thumbnail.--hidden {
+			transform: scale(0);
+		}
+	</style>
+	
+	<main>
+		<div id="book-listing">
+			<a href="./edit.html">Add New book</a>
+			<h1>Books</h1>
+			<ul id="books-ul"></ul>
+		</div>
+		<div id="book-controls"></div>
+		<div id="current-book">
+			<div>
+				<span id="book-title"></span>
+				<span id="book-author"></span>
+			</div>
+			<div>
+				<span id="book-language"></span>
+				<span id="book-pages"></span>
+			</div>
+			<img id="book-thumbnail" class="--hidden">
+		</div>
+	</main>
+
+	<script>
+		const search = location.search.slice(1);
+		const params = new URLSearchParams(search);
+		
+		const id = params.get("id");
+
+		const listing = document.getElementById("books-ul");
+
+		const thumb = document.getElementById('book-thumbnail');
+		const title = document.getElementById('book-title');
+		const author = document.getElementById('book-author');
+		const pages = document.getElementById('book-pages');
+		const language = document.getElementById('book-language');
+
+		const controls = document.getElementById('book-controls');
+
+		fetch(`/api/list`).then(async (res) => {
+			const data = await res.json();
+			Object.values(data).forEach(b => {
+				const li = document.createElement('li');
+				const a = document.createElement('a');
+				a.href = `/?id=${b.id}`
+				a.innerHTML = `${b.title}, <em>${b.author}</em>`;
+				li.append(a);
+				listing.appendChild(li);
+			});
+			if (id !== null) {
+				const book = data[id];
+				if (book) {
+					if (book.thumb) {
+						thumb.src = book.thumb;
+						thumb.classList.remove('--hidden');
+					}
+					title.innerHTML = book.title;
+					author.innerHTML = book.author;
+					pages.innerHTML = `${book.pages} Pages`;
+					language.innerHTML = book.language;
+					
+					const a = document.createElement('a');
+					a.href = `/edit.html?id=${id}`;
+					a.innerHTML = "Edit this book";
+					controls.appendChild(a);
+				} else {
+					location = './404.html';
+				}
+			}
+		});
+	</script>
+</body>
+</html>
